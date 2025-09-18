@@ -57,43 +57,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: "1",
-      title: "Review Q4 marketing strategy",
-      description: "Analyze performance metrics and plan for next quarter",
-      priority: "high",
-      status: "in-progress",
-      dueDate: "2024-10-23",
-      assignee: "Alex Johnson",
-      tags: ["marketing", "strategy"],
-      completed: false,
-      aiSuggestion: "AI suggests scheduling this for your peak focus time (10-11 AM)",
-    },
-    {
-      id: "2",
-      title: "Update team documentation",
-      description: "Refresh onboarding docs and API references",
-      priority: "medium",
-      status: "todo",
-      dueDate: "2024-10-25",
-      assignee: "Sarah Chen",
-      tags: ["documentation", "team"],
-      completed: false,
-    },
-    {
-      id: "3",
-      title: "Prepare client presentation",
-      description: "Create slides for quarterly business review",
-      priority: "high",
-      status: "completed",
-      dueDate: "2024-10-22",
-      assignee: "Alex Johnson",
-      tags: ["presentation", "client"],
-      completed: true,
-    },
-  ]);
-
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
 

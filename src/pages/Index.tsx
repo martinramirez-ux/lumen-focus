@@ -31,37 +31,8 @@ const Index = () => {
       {/* Main Dashboard Grid */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Left Column - Tasks */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2">
           <TasksOverview />
-          
-          {/* Recent Activity */}
-          <Card className="glass-effect border-0 shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="w-2 h-2 bg-success rounded-full"></div>
-                  <span className="text-muted-foreground">2 hours ago</span>
-                  <span>Completed "Design review session"</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span className="text-muted-foreground">4 hours ago</span>
-                  <span>Added new team member to project</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="w-2 h-2 bg-accent rounded-full"></div>
-                  <span className="text-muted-foreground">Yesterday</span>
-                  <span>Updated project documentation</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Right Column - Calendar & AI */}
