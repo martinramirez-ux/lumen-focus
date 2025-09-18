@@ -1,44 +1,9 @@
-import { useState } from "react";
 import { CheckSquare, Clock, AlertCircle, Zap, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-
-const tasks = [
-  {
-    id: "1",
-    title: "Review Q4 marketing strategy",
-    priority: "high",
-    dueDate: "Today",
-    completed: false,
-    aiSuggestion: "AI suggests scheduling this for your peak focus time (10-11 AM)",
-  },
-  {
-    id: "2", 
-    title: "Update team documentation",
-    priority: "medium",
-    dueDate: "Tomorrow",
-    completed: false,
-    aiSuggestion: null,
-  },
-  {
-    id: "3",
-    title: "Prepare client presentation",
-    priority: "high",
-    dueDate: "Oct 25",
-    completed: true,
-    aiSuggestion: null,
-  },
-  {
-    id: "4",
-    title: "Code review for new feature",
-    priority: "medium",
-    dueDate: "Oct 24",
-    completed: false,
-    aiSuggestion: "Similar tasks usually take 45 minutes. Block time?",
-  },
-];
+import { useApp } from "@/contexts/AppContext";
 
 const priorityColors = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
@@ -47,18 +12,17 @@ const priorityColors = {
 };
 
 export function TasksOverview() {
-  const [taskList, setTaskList] = useState(tasks);
+  const { tasks, updateTask } = useApp();
 
   const toggleTask = (id: string) => {
-    setTaskList(tasks => 
-      tasks.map(task => 
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      updateTask(id, { completed: !task.completed });
+    }
   };
 
-  const activeTasks = taskList.filter(task => !task.completed);
-  const completedCount = taskList.filter(task => task.completed).length;
+  const activeTasks = tasks.filter(task => !task.completed);
+  const completedCount = tasks.filter(task => task.completed).length;
 
   return (
     <Card className="glass-effect border-0 shadow-card">

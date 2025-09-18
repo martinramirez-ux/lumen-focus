@@ -6,42 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-const tasks = [
-  {
-    id: "1",
-    title: "Review Q4 marketing strategy",
-    description: "Analyze performance metrics and plan for next quarter",
-    priority: "high",
-    status: "in-progress",
-    dueDate: "2024-10-23",
-    assignee: "Alex Johnson",
-    tags: ["marketing", "strategy"],
-    completed: false,
-  },
-  {
-    id: "2",
-    title: "Update team documentation",
-    description: "Refresh onboarding docs and API references",
-    priority: "medium",
-    status: "todo",
-    dueDate: "2024-10-25",
-    assignee: "Sarah Chen",
-    tags: ["documentation", "team"],
-    completed: false,
-  },
-  {
-    id: "3",
-    title: "Prepare client presentation",
-    description: "Create slides for quarterly business review",
-    priority: "high",
-    status: "completed",
-    dueDate: "2024-10-22",
-    assignee: "Alex Johnson",
-    tags: ["presentation", "client"],
-    completed: true,
-  },
-];
+import { useApp } from "@/contexts/AppContext";
 
 const priorityColors = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
@@ -56,23 +21,22 @@ const statusColors = {
 };
 
 const Tasks = () => {
-  const [taskList, setTaskList] = useState(tasks);
+  const { tasks, updateTask } = useApp();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredTasks = taskList.filter(task =>
+  const filteredTasks = tasks.filter(task =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    task.description.toLowerCase().includes(searchTerm.toLowerCase())
+    (task.description && task.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const activeTasks = filteredTasks.filter(task => !task.completed);
   const completedTasks = filteredTasks.filter(task => task.completed);
 
   const toggleTask = (id: string) => {
-    setTaskList(tasks =>
-      tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      updateTask(id, { completed: !task.completed });
+    }
   };
 
   return (

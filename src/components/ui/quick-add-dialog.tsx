@@ -39,6 +39,7 @@ import {
   Zap
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useApp } from "@/contexts/AppContext";
 
 const quickAddTypes = [
   { id: "task", label: "Task", icon: CheckSquare, color: "bg-primary/10 text-primary" },
@@ -76,6 +77,7 @@ export function QuickAddDialog({ children }: QuickAddDialogProps) {
   const [open, setOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<string>("task");
   const { toast } = useToast();
+  const { addTask, addEvent, addNote } = useApp();
 
   const getSchema = () => {
     switch (selectedType) {
@@ -106,22 +108,51 @@ export function QuickAddDialog({ children }: QuickAddDialogProps) {
   });
 
   const onSubmit = (data: any) => {
-    console.log("Quick Add:", selectedType, data);
-    
-    const messages = {
-      task: `Task "${data.title}" created successfully!`,
-      event: `Event "${data.title}" scheduled successfully!`,
-      note: `Note "${data.title}" saved successfully!`,
-      file: `File "${data.title}" uploaded successfully!`,
-    };
+    try {
+      if (selectedType === "task") {
+        addTask({
+          title: data.title,
+          description: data.description || "",
+          priority: data.priority || "medium",
+          dueDate: data.dueDate || new Date().toISOString().split('T')[0],
+          tags: [],
+        });
+      } else if (selectedType === "event") {
+        addEvent({
+          title: data.title,
+          description: data.description || "",
+          date: data.date,
+          time: data.time,
+          duration: data.duration || "1h",
+        });
+      } else if (selectedType === "note") {
+        addNote({
+          title: data.title,
+          content: data.content || "",
+          tags: data.tags ? data.tags.split(",").map((tag: string) => tag.trim()) : [],
+        });
+      }
+      
+      const messages = {
+        task: `Task "${data.title}" created successfully!`,
+        event: `Event "${data.title}" scheduled successfully!`,
+        note: `Note "${data.title}" saved successfully!`,
+        file: `File "${data.title}" uploaded successfully!`,
+      };
 
-    toast({
-      title: "Success!",
-      description: messages[selectedType as keyof typeof messages],
-    });
+      toast({
+        title: "Success!",
+        description: messages[selectedType as keyof typeof messages],
+      });
 
-    form.reset();
-    setOpen(false);
+      form.reset();
+      setOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add item. Please try again.",
+      });
+    }
   };
 
   const renderForm = () => {
