@@ -1,48 +1,40 @@
-import { Calendar, Clock, Users, Video, MapPin } from "lucide-react";
+import { Calendar, Clock, Users, Video, MapPin, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const upcomingEvents = [
-  {
-    id: "1",
-    title: "Team Standup",
-    time: "9:00 AM",
-    duration: "30m",
-    type: "meeting",
-    attendees: 5,
-    location: "Conference Room A",
-    isVirtual: false,
-  },
-  {
-    id: "2",
-    title: "Client Presentation", 
-    time: "2:00 PM",
-    duration: "1h",
-    type: "presentation",
-    attendees: 8,
-    location: "Zoom",
-    isVirtual: true,
-  },
-  {
-    id: "3",
-    title: "Code Review Session",
-    time: "4:30 PM", 
-    duration: "45m",
-    type: "review",
-    attendees: 3,
-    location: "Dev Room",
-    isVirtual: false,
-  },
-];
-
-const typeColors = {
-  meeting: "bg-primary/10 text-primary",
-  presentation: "bg-accent/10 text-accent",
-  review: "bg-success/10 text-success",
-};
+import { useApp } from "@/contexts/AppContext";
 
 export function CalendarWidget() {
+  const { events } = useApp();
+  
+  const today = new Date().toISOString().split('T')[0];
+  const todayEvents = events.filter(event => event.date === today);
+  
+  if (todayEvents.length === 0) {
+    return (
+      <Card className="glass-effect border-0 shadow-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="h-5 w-5" />
+            Today's Schedule
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            No events scheduled for today
+          </p>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center justify-center py-8">
+          <Calendar className="h-12 w-12 text-muted-foreground/50 mb-3" />
+          <p className="text-sm text-muted-foreground text-center mb-4">
+            Your schedule is clear today.<br />Ready to add some events?
+          </p>
+          <Button variant="outline">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Event
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
   return (
     <Card className="glass-effect border-0 shadow-card">
       <CardHeader>
@@ -56,11 +48,11 @@ export function CalendarWidget() {
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
-          {upcomingEvents.length} events scheduled
+          {todayEvents.length} event{todayEvents.length !== 1 ? 's' : ''} scheduled
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        {upcomingEvents.map((event) => (
+        {todayEvents.map((event) => (
           <div key={event.id} className="flex gap-3 p-3 rounded-lg hover:bg-secondary/50 transition-smooth">
             <div className="flex flex-col items-center text-sm">
               <span className="font-medium">{event.time}</span>
@@ -70,38 +62,19 @@ export function CalendarWidget() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
                 <h4 className="font-medium">{event.title}</h4>
-                <Badge variant="outline" className={typeColors[event.type as keyof typeof typeColors]}>
-                  {event.type}
-                </Badge>
               </div>
               
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Users className="h-3 w-3" />
-                  <span>{event.attendees}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  {event.isVirtual ? (
-                    <>
-                      <Video className="h-3 w-3" />
-                      <span>{event.location}</span>
-                    </>
-                  ) : (
-                    <>
-                      <MapPin className="h-3 w-3" />
-                      <span>{event.location}</span>
-                    </>
-                  )}
-                </div>
-              </div>
+              {event.description && (
+                <p className="text-xs text-muted-foreground">{event.description}</p>
+              )}
             </div>
           </div>
         ))}
         
         <div className="pt-2 border-t border-border/50">
           <Button variant="outline" className="w-full">
-            <Calendar className="h-4 w-4 mr-2" />
-            Schedule New Meeting
+            <Plus className="h-4 w-4 mr-2" />
+            Add Event
           </Button>
         </div>
       </CardContent>

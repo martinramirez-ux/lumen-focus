@@ -1,42 +1,50 @@
 import { CheckSquare, Calendar, FileText, Users, TrendingUp, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const stats = [
-  {
-    title: "Active Tasks",
-    value: "12",
-    change: "+2 from yesterday",
-    icon: CheckSquare,
-    trend: "up",
-    color: "text-primary",
-  },
-  {
-    title: "Meetings Today",
-    value: "3",
-    change: "2 hours scheduled",
-    icon: Calendar,
-    trend: "neutral",
-    color: "text-accent",
-  },
-  {
-    title: "Recent Notes",
-    value: "8",
-    change: "+3 this week",
-    icon: FileText,
-    trend: "up",
-    color: "text-success",
-  },
-  {
-    title: "Team Members",
-    value: "24",
-    change: "All active",
-    icon: Users,
-    trend: "neutral",
-    color: "text-warning",
-  },
-];
+import { useApp } from "@/contexts/AppContext";
 
 export function StatsCards() {
+  const { tasks, events, notes } = useApp();
+  
+  const activeTasks = tasks.filter(task => !task.completed);
+  const todayEvents = events.filter(event => {
+    const today = new Date().toISOString().split('T')[0];
+    return event.date === today;
+  });
+
+  const stats = [
+    {
+      title: "Active Tasks",
+      value: activeTasks.length.toString(),
+      change: tasks.length > 0 ? `${tasks.length} total` : "No tasks yet",
+      icon: CheckSquare,
+      trend: "neutral",
+      color: "text-primary",
+    },
+    {
+      title: "Events Today",
+      value: todayEvents.length.toString(),
+      change: events.length > 0 ? `${events.length} this week` : "No events scheduled",
+      icon: Calendar,
+      trend: "neutral",
+      color: "text-accent",
+    },
+    {
+      title: "Notes",
+      value: notes.length.toString(),
+      change: notes.length > 0 ? "Ready to organize" : "Start taking notes",
+      icon: FileText,
+      trend: "neutral",
+      color: "text-success",
+    },
+    {
+      title: "Workspace",
+      value: "1",
+      change: "Personal workspace",
+      icon: Users,
+      trend: "neutral",
+      color: "text-warning",
+    },
+  ];
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => {
