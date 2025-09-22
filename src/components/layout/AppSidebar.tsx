@@ -12,6 +12,7 @@ import {
   Zap,
   Plus,
   Search,
+  Briefcase,
 } from "lucide-react";
 
 import {
@@ -36,6 +37,7 @@ const navigation = [
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Notes", url: "/notes", icon: FileText },
   { title: "Files", url: "/files", icon: FolderOpen },
+  { title: "Portfolio", url: "/portfolio", icon: Briefcase },
 ];
 
 const aiFeatures = [
