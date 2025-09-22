@@ -10,7 +10,7 @@ import Tasks from "./pages/Tasks";
 import Calendar from "./pages/Calendar";
 import Notes from "./pages/Notes";
 import Files from "./pages/Files";
-import Team from "./pages/Team";
+
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -30,7 +30,7 @@ const App = () => (
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/files" element={<Files />} />
-              <Route path="/team" element={<Team />} />
+              
               <Route path="/settings" element={<Settings />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

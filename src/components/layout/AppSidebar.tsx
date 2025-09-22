@@ -36,7 +36,6 @@ const navigation = [
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Notes", url: "/notes", icon: FileText },
   { title: "Files", url: "/files", icon: FolderOpen },
-  { title: "Team", url: "/team", icon: Users },
 ];
 
 const aiFeatures = [
