@@ -5,44 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
 
-const events = [
-  {
-    id: "1",
-    title: "Team Standup",
-    time: "9:00 AM",
-    endTime: "9:30 AM",
-    date: "2024-10-23",
-    type: "meeting",
-    attendees: ["Alex Johnson", "Sarah Chen", "Mike Davis"],
-    location: "Conference Room A",
-    isVirtual: false,
-    color: "bg-primary",
-  },
-  {
-    id: "2",
-    title: "Client Presentation",
-    time: "2:00 PM",
-    endTime: "3:00 PM",
-    date: "2024-10-23",
-    type: "presentation",
-    attendees: ["Alex Johnson", "Client Team"],
-    location: "Zoom Meeting",
-    isVirtual: true,
-    color: "bg-accent",
-  },
-  {
-    id: "3",
-    title: "Design Review",
-    time: "4:30 PM",
-    endTime: "5:15 PM",
-    date: "2024-10-23",
-    type: "review",
-    attendees: ["Sarah Chen", "Design Team"],
-    location: "Design Studio",
-    isVirtual: false,
-    color: "bg-success",
-  },
-];
+const events: any[] = [];
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -251,15 +214,15 @@ const Calendar = () => {
             <CardContent className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total Events</span>
-                <span className="font-medium">12</span>
+                <span className="font-medium">0</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Meetings</span>
-                <span className="font-medium">8</span>
+                <span className="font-medium">0</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Focus Time</span>
-                <span className="font-medium">14 hrs</span>
+                <span className="font-medium">0 hrs</span>
               </div>
             </CardContent>
           </Card>
