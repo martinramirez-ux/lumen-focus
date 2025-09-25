@@ -65,11 +65,37 @@ const Portfolio = () => {
       <div className="text-center space-y-4 py-12 bg-gradient-to-br from-primary/10 via-accent/5 to-background rounded-lg border">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Full Stack Developer
+            Martin Ramirez
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Passionate about creating exceptional digital experiences with modern technologies and clean, efficient code.
+          <p className="text-lg text-muted-foreground">
+            16-year-old Entrepreneur & Developer
           </p>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Passionate about building innovative solutions that help companies streamline operations, boost productivity, and achieve sustainable growth through cutting-edge technology.
+          </p>
+        </div>
+        
+        {/* Goals Section */}
+        <div className="mt-8 space-y-4">
+          <h3 className="text-lg font-semibold text-foreground">My Mission: Empowering Companies Through Innovation</h3>
+          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto text-left">
+            <div className="bg-background/50 p-4 rounded-lg border">
+              <h4 className="font-medium text-primary mb-2">🚀 Accelerate Digital Transformation</h4>
+              <p className="text-sm text-muted-foreground">Help traditional businesses modernize their workflows with AI-powered automation and smart productivity tools.</p>
+            </div>
+            <div className="bg-background/50 p-4 rounded-lg border">
+              <h4 className="font-medium text-primary mb-2">📊 Optimize Business Operations</h4>
+              <p className="text-sm text-muted-foreground">Create data-driven solutions that reduce operational costs by 30% while improving team efficiency and collaboration.</p>
+            </div>
+            <div className="bg-background/50 p-4 rounded-lg border">
+              <h4 className="font-medium text-primary mb-2">🎯 Scale Startup Success</h4>
+              <p className="text-sm text-muted-foreground">Partner with emerging startups to build scalable tech infrastructure that grows with their ambitious goals.</p>
+            </div>
+            <div className="bg-background/50 p-4 rounded-lg border">
+              <h4 className="font-medium text-primary mb-2">🌱 Foster Innovation Culture</h4>
+              <p className="text-sm text-muted-foreground">Mentor teams on adopting cutting-edge technologies and agile methodologies to stay ahead of market trends.</p>
+            </div>
+          </div>
         </div>
         
         <div className="flex justify-center gap-4 pt-4">
