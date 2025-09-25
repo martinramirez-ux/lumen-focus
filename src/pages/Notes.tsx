@@ -13,48 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
 
-const notes = [
-  {
-    id: "1",
-    title: "Product Roadmap Q4",
-    content: "Key initiatives for Q4 include: user authentication system, advanced analytics dashboard, mobile app optimization...",
-    tags: ["product", "roadmap", "planning"],
-    createdAt: "2024-10-20",
-    updatedAt: "2024-10-22",
-    starred: true,
-    category: "work",
-  },
-  {
-    id: "2",
-    title: "Meeting Notes - Design Review",
-    content: "Discussed new UI components, user feedback on the dashboard redesign, and accessibility improvements...",
-    tags: ["meeting", "design", "ui"],
-    createdAt: "2024-10-19",
-    updatedAt: "2024-10-21",
-    starred: false,
-    category: "work",
-  },
-  {
-    id: "3",
-    title: "Project Ideas",
-    content: "1. AI-powered productivity assistant 2. Automated workflow builder 3. Team collaboration tools...",
-    tags: ["ideas", "projects", "innovation"],
-    createdAt: "2024-10-18",
-    updatedAt: "2024-10-18",
-    starred: true,
-    category: "personal",
-  },
-  {
-    id: "4",
-    title: "Learning Resources",
-    content: "Collection of useful articles, tutorials, and courses for professional development...",
-    tags: ["learning", "resources", "development"],
-    createdAt: "2024-10-15",
-    updatedAt: "2024-10-20",
-    starred: false,
-    category: "personal",
-  },
-];
+const notes = [];
 
 const Notes = () => {
   const [notesList, setNotesList] = useState(notes);
