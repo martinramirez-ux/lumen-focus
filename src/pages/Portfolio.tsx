@@ -102,7 +102,7 @@ const Portfolio = () => {
           <Button 
             variant="outline" 
             size="sm"
-            onClick={() => window.open('https://github.com/YOUR_USERNAME/YOUR_REPO', '_blank')}
+            onClick={() => window.open('https://github.com/martinramirez-ux', '_blank')}
           >
             <Github className="w-4 h-4 mr-2" />
             View on GitHub
