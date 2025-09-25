@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Code2, Briefcase, Mail, Linkedin } from "lucide-react";
+import { ExternalLink, Github, Code2, Briefcase } from "lucide-react";
 
 const Portfolio = () => {
   const projects = [
@@ -99,17 +99,13 @@ const Portfolio = () => {
         </div>
         
         <div className="flex justify-center gap-4 pt-4">
-          <Button variant="outline" size="sm">
-            <Mail className="w-4 h-4 mr-2" />
-            Contact Me
-          </Button>
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => window.open('https://github.com/YOUR_USERNAME/YOUR_REPO', '_blank')}
+          >
             <Github className="w-4 h-4 mr-2" />
-            GitHub
-          </Button>
-          <Button variant="outline" size="sm">
-            <Linkedin className="w-4 h-4 mr-2" />
-            LinkedIn
+            View on GitHub
           </Button>
         </div>
       </div>
@@ -229,13 +225,8 @@ const Portfolio = () => {
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <p className="text-muted-foreground">
-            Whether you have a project in mind or just want to chat about technology, 
-            I'd love to hear from you.
+            Ready to help your company achieve its goals through innovative technology solutions.
           </p>
-          <Button variant="default">
-            <Mail className="w-4 h-4 mr-2" />
-            Get In Touch
-          </Button>
         </CardContent>
       </Card>
     </div>
