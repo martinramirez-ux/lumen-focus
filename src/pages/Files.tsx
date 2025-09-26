@@ -28,75 +28,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const files = [
-  {
-    id: "1",
-    name: "Q4 Marketing Strategy.pdf",
-    type: "pdf",
-    size: "2.4 MB",
-    modified: "2024-10-22",
-    category: "documents",
-    icon: FileText,
-    shared: true,
-  },
-  {
-    id: "2",
-    name: "Team Photo 2024.jpg",
-    type: "image",
-    size: "8.1 MB",
-    modified: "2024-10-20",
-    category: "images",
-    icon: Image,
-    shared: false,
-  },
-  {
-    id: "3",
-    name: "Product Demo Video.mp4",
-    type: "video",
-    size: "156 MB",
-    modified: "2024-10-19",
-    category: "videos",
-    icon: Video,
-    shared: true,
-  },
-  {
-    id: "4",
-    name: "Meeting Recording.m4a",
-    type: "audio",
-    size: "25.3 MB",
-    modified: "2024-10-18",
-    category: "audio",
-    icon: Music,
-    shared: false,
-  },
-  {
-    id: "5",
-    name: "Project Archive.zip",
-    type: "archive",
-    size: "445 MB",
-    modified: "2024-10-15",
-    category: "archives",
-    icon: Archive,
-    shared: false,
-  },
-  {
-    id: "6",
-    name: "Design Mockups.sketch",
-    type: "design",
-    size: "12.7 MB",
-    modified: "2024-10-14",
-    category: "documents",
-    icon: FileText,
-    shared: true,
-  },
-];
+const files: any[] = [];
 
-const folders = [
-  { id: "1", name: "Projects", count: 24, modified: "2024-10-22" },
-  { id: "2", name: "Documents", count: 18, modified: "2024-10-21" },
-  { id: "3", name: "Images", count: 156, modified: "2024-10-20" },
-  { id: "4", name: "Videos", count: 8, modified: "2024-10-19" },
-];
+const folders: any[] = [];
 
 const Files = () => {
   const [filesList, setFilesList] = useState(files);
