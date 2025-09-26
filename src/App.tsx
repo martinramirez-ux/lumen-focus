@@ -12,6 +12,7 @@ import Notes from "./pages/Notes";
 import Files from "./pages/Files";
 import Portfolio from "./pages/Portfolio";
 import Settings from "./pages/Settings";
+import AI from "./pages/AI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/files" element={<Files />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/ai" element={<AI />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
