@@ -42,8 +42,6 @@ const navigation = [
 
 const aiFeatures = [
   { title: "AI Assistant", url: "/ai", icon: Zap },
-  { title: "Smart Scheduling", url: "/ai/scheduling", icon: Calendar },
-  { title: "Insights", url: "/insights", icon: MessageSquare },
 ];
 
 export function AppSidebar() {
