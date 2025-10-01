@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -18,7 +19,16 @@ export const LoginForm = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+            data: {
+              display_name: displayName,
+            },
+          },
+        });
         if (error) throw error;
         toast({ title: "Account created! You can now sign in." });
       } else {
@@ -38,6 +48,19 @@ export const LoginForm = () => {
       <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center text-primary">Clario</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {isSignUp && (
+            <div>
+              <Label htmlFor="displayName">Name</Label>
+              <Input
+                id="displayName"
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+          )}
           <div>
             <Label htmlFor="email">Email</Label>
             <Input

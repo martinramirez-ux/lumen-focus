@@ -1,15 +1,37 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 interface AppLayoutProps {
   children: ReactNode;
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const { user } = useAuth();
+  const [displayName, setDisplayName] = useState("there");
+
+  useEffect(() => {
+    if (user) {
+      const fetchProfile = async () => {
+        const { data } = await supabase
+          .from("profiles")
+          .select("display_name")
+          .eq("user_id", user.id)
+          .maybeSingle();
+        
+        if (data?.display_name) {
+          setDisplayName(data.display_name);
+        }
+      };
+      fetchProfile();
+    }
+  }, [user]);
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-background via-background to-primary/5">
@@ -23,7 +45,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 <SidebarTrigger className="hover:bg-secondary/80 transition-smooth" />
                 <div className="hidden md:block">
                   <h1 className="font-semibold text-lg text-foreground">
-                    Good morning, Alex
+                    Good morning, {displayName}
                   </h1>
                   <p className="text-sm text-muted-foreground">
                     You have 3 tasks due today
