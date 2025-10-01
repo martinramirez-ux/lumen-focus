@@ -69,7 +69,7 @@ export function AppSidebar() {
                 <Zap className="w-4 h-4 text-white" />
               </div>
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                FlowSpace
+                Clario
               </span>
             </div>
           )}
