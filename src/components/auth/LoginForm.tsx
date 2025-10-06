@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const signupSchema = z.object({
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters").max(128, "Password must be less than 128 characters"),
+  displayName: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters")
+});
+
+const signinSchema = z.object({
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  password: z.string().min(1, "Password is required").max(128, "Password must be less than 128 characters")
+});
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -19,20 +31,58 @@ export const LoginForm = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({ 
-          email, 
+        // Validate signup inputs
+        const validationResult = signupSchema.safeParse({
+          email,
           password,
+          displayName
+        });
+
+        if (!validationResult.success) {
+          const firstError = validationResult.error.errors[0];
+          toast({ 
+            title: "Validation Error", 
+            description: firstError.message, 
+            variant: "destructive" 
+          });
+          setLoading(false);
+          return;
+        }
+
+        const { error } = await supabase.auth.signUp({ 
+          email: validationResult.data.email, 
+          password: validationResult.data.password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
             data: {
-              display_name: displayName,
+              display_name: validationResult.data.displayName,
             },
           },
         });
         if (error) throw error;
         toast({ title: "Account created! You can now sign in." });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        // Validate signin inputs
+        const validationResult = signinSchema.safeParse({
+          email,
+          password
+        });
+
+        if (!validationResult.success) {
+          const firstError = validationResult.error.errors[0];
+          toast({ 
+            title: "Validation Error", 
+            description: firstError.message, 
+            variant: "destructive" 
+          });
+          setLoading(false);
+          return;
+        }
+
+        const { error } = await supabase.auth.signInWithPassword({ 
+          email: validationResult.data.email, 
+          password: validationResult.data.password 
+        });
         if (error) throw error;
         toast({ title: "Welcome to Clario!" });
       }

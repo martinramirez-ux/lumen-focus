@@ -18,11 +18,16 @@ export function AppLayout({ children }: AppLayoutProps) {
   useEffect(() => {
     if (user) {
       const fetchProfile = async () => {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from("profiles")
           .select("display_name")
           .eq("user_id", user.id)
           .maybeSingle();
+        
+        if (error) {
+          console.error('Failed to fetch profile:', error);
+          return;
+        }
         
         if (data?.display_name) {
           setDisplayName(data.display_name);
