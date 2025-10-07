@@ -1,11 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
-import { Bell, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { toast } from "sonner";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -52,22 +51,17 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <h1 className="font-semibold text-lg text-foreground">
                     Good morning, {displayName}
                   </h1>
-                  <p className="text-sm text-muted-foreground">
-                    You have 3 tasks due today
-                  </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" className="relative">
-                  <Bell className="w-4 h-4" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
-                </Button>
-                
-                <Avatar className="w-8 h-8 shadow-sm">
+                <Avatar 
+                  className="w-8 h-8 shadow-sm cursor-pointer hover:opacity-80 transition-smooth"
+                  onClick={() => toast.info("Database coming soon")}
+                >
                   <AvatarImage src="/placeholder.svg" />
                   <AvatarFallback className="gradient-primary text-white text-sm font-medium">
-                    AJ
+                    {displayName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>

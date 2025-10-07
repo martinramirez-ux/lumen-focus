@@ -63,15 +63,6 @@ export function TasksOverview() {
                 <Clock className="h-3 w-3" />
                 <span>Due {task.dueDate}</span>
               </div>
-              {task.aiSuggestion && (
-                <div className="mt-2 p-2 bg-primary/5 border border-primary/10 rounded-md text-xs">
-                  <div className="flex items-center gap-1 text-primary font-medium mb-1">
-                    <Zap className="h-3 w-3" />
-                    AI Suggestion
-                  </div>
-                  <p className="text-muted-foreground">{task.aiSuggestion}</p>
-                </div>
-              )}
             </div>
           </div>
         ))}
