@@ -11,7 +11,6 @@ import Index from "./pages/Index";
 import Tasks from "./pages/Tasks";
 import Calendar from "./pages/Calendar";
 import Notes from "./pages/Notes";
-import Files from "./pages/Files";
 import Portfolio from "./pages/Portfolio";
 import Settings from "./pages/Settings";
 import AI from "./pages/AI";
@@ -37,7 +36,6 @@ const AppContent = () => {
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/notes" element={<Notes />} />
-        <Route path="/files" element={<Files />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ai" element={<AI />} />

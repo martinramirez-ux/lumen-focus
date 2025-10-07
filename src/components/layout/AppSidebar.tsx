@@ -4,7 +4,6 @@ import {
   Calendar,
   CheckSquare,
   FileText,
-  FolderOpen,
   Home,
   MessageSquare,
   Settings,
@@ -36,7 +35,6 @@ const navigation = [
   { title: "Tasks", url: "/tasks", icon: CheckSquare },
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Notes", url: "/notes", icon: FileText },
-  { title: "Files", url: "/files", icon: FolderOpen },
   { title: "Portfolio", url: "/portfolio", icon: Briefcase },
 ];
 
