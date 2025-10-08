@@ -1,33 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/components/auth/AuthProvider";
+import { useApp } from "@/contexts/AppContext";
 
 const Calendar = () => {
-  const { user } = useAuth();
+  const { events } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
-  const [events, setEvents] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (user) {
-      fetchEvents();
-    }
-  }, [user]);
-
-  const fetchEvents = async () => {
-    const { data, error } = await supabase
-      .from('events')
-      .select('*')
-      .order('date', { ascending: true });
-    
-    if (data && !error) {
-      setEvents(data);
-    }
-  };
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
