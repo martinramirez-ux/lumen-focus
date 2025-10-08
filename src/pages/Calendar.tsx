@@ -1,15 +1,33 @@
-import { useState } from "react";
-import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Clock, Users, MapPin, Video } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
-
-const events: any[] = [];
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const Calendar = () => {
+  const { user } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      fetchEvents();
+    }
+  }, [user]);
+
+  const fetchEvents = async () => {
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .order('date', { ascending: true });
+    
+    if (data && !error) {
+      setEvents(data);
+    }
+  };
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -65,10 +83,15 @@ const Calendar = () => {
             {day}
           </div>
           {/* Show events for this day */}
-          {events.filter(event => new Date(event.date).getDate() === day).map(event => (
+          {events.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate.getDate() === day &&
+                   eventDate.getMonth() === currentDate.getMonth() &&
+                   eventDate.getFullYear() === currentDate.getFullYear();
+          }).map(event => (
             <div
               key={event.id}
-              className={`text-xs p-1 mt-1 rounded text-white ${event.color} truncate`}
+              className="text-xs p-1 mt-1 rounded bg-primary/80 text-primary-foreground truncate"
             >
               {event.time} {event.title}
             </div>
@@ -167,32 +190,18 @@ const Calendar = () => {
               {todayEvents.map((event) => (
                 <div key={event.id} className="p-3 rounded-lg border border-border/20 hover:bg-secondary/50 transition-smooth">
                   <div className="flex items-start gap-3">
-                    <div className={`w-3 h-3 rounded-full ${event.color} mt-1 flex-shrink-0`}></div>
+                    <div className="w-3 h-3 rounded-full bg-primary mt-1 flex-shrink-0"></div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium">{event.title}</h4>
                       <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                         <Clock className="h-3 w-3" />
-                        {event.time} - {event.endTime}
+                        {event.time} • {event.duration}
                       </p>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
-                        <div className="flex items-center gap-1">
-                          <Users className="h-3 w-3" />
-                          <span>{event.attendees.length}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {event.isVirtual ? (
-                            <>
-                              <Video className="h-3 w-3" />
-                              <span>Virtual</span>
-                            </>
-                          ) : (
-                            <>
-                              <MapPin className="h-3 w-3" />
-                              <span>{event.location}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
+                      {event.description && (
+                        <p className="text-sm text-muted-foreground mt-2">
+                          {event.description}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
