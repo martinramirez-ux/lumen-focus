@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
 
 const navigation = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -81,16 +80,6 @@ export function AppSidebar() {
         {/* Quick Actions */}
         {!collapsed && (
           <div className="p-4 space-y-3">
-            <QuickAddDialog>
-              <Button 
-                variant="primary" 
-                size="sm" 
-                className="w-full shadow-glow"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Quick Add
-              </Button>
-            </QuickAddDialog>
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
               <Input 
