@@ -1,33 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/components/auth/AuthProvider";
+import { useApp } from "@/contexts/AppContext";
+import { EventEditDialog } from "@/components/calendar/EventEditDialog";
 
 const Calendar = () => {
-  const { user } = useAuth();
+  const { events } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
-  const [events, setEvents] = useState<any[]>([]);
+  const [editingEvent, setEditingEvent] = useState<any>(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchEvents();
-    }
-  }, [user]);
-
-  const fetchEvents = async () => {
-    const { data, error } = await supabase
-      .from('events')
-      .select('*')
-      .order('date', { ascending: true });
-    
-    if (data && !error) {
-      setEvents(data);
-    }
-  };
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -91,7 +75,11 @@ const Calendar = () => {
           }).map(event => (
             <div
               key={event.id}
-              className="text-xs p-1 mt-1 rounded bg-primary/80 text-primary-foreground truncate"
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditingEvent(event);
+              }}
+              className="text-xs p-1 mt-1 rounded bg-primary/80 text-primary-foreground truncate cursor-pointer hover:bg-primary transition-smooth"
             >
               {event.time} {event.title}
             </div>
@@ -188,7 +176,11 @@ const Calendar = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {todayEvents.map((event) => (
-                <div key={event.id} className="p-3 rounded-lg border border-border/20 hover:bg-secondary/50 transition-smooth">
+                <div 
+                  key={event.id} 
+                  onClick={() => setEditingEvent(event)}
+                  className="p-3 rounded-lg border border-border/20 hover:bg-secondary/50 transition-smooth cursor-pointer"
+                >
                   <div className="flex items-start gap-3">
                     <div className="w-3 h-3 rounded-full bg-primary mt-1 flex-shrink-0"></div>
                     <div className="flex-1 min-w-0">
@@ -237,6 +229,15 @@ const Calendar = () => {
           </Card>
         </div>
       </div>
+
+      {/* Event Edit Dialog */}
+      {editingEvent && (
+        <EventEditDialog
+          event={editingEvent}
+          open={!!editingEvent}
+          onOpenChange={(open) => !open && setEditingEvent(null)}
+        />
+      )}
     </div>
   );
 };

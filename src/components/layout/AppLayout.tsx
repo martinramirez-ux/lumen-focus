@@ -2,8 +2,18 @@ import { ReactNode, useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import { LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 
 interface AppLayoutProps {
@@ -12,6 +22,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState("there");
 
   useEffect(() => {
@@ -36,6 +47,18 @@ export function AppLayout({ children }: AppLayoutProps) {
     }
   }, [user]);
 
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      toast.success("Signed out successfully");
+      navigate("/auth");
+    } catch (error) {
+      toast.error("Failed to sign out. Please try again.");
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-background via-background to-primary/5">
@@ -55,15 +78,29 @@ export function AppLayout({ children }: AppLayoutProps) {
               </div>
 
               <div className="flex items-center gap-3">
-                <Avatar 
-                  className="w-8 h-8 shadow-sm cursor-pointer hover:opacity-80 transition-smooth"
-                  onClick={() => toast.info("Database coming soon")}
-                >
-                  <AvatarImage src="/placeholder.svg" />
-                  <AvatarFallback className="gradient-primary text-white text-sm font-medium">
-                    {displayName.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="w-8 h-8 shadow-sm cursor-pointer hover:opacity-80 transition-smooth">
+                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarFallback className="gradient-primary text-white text-sm font-medium">
+                        {displayName.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem disabled>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>{displayName}</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </header>

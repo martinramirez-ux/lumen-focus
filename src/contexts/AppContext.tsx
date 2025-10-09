@@ -37,6 +37,7 @@ interface AppContextType {
   tasks: Task[];
   events: Event[];
   notes: Note[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[]>>;
   addTask: (task: Partial<Task>) => void;
   addEvent: (event: Omit<Event, 'id'>) => void;
   addNote: (note: Partial<Note>) => void;
@@ -237,6 +238,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     tasks,
     events,
     notes,
+    setEvents,
     addTask,
     addEvent,
     addNote,
