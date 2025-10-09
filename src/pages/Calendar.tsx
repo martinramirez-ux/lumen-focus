@@ -5,12 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuickAddDialog } from "@/components/ui/quick-add-dialog";
 import { useApp } from "@/contexts/AppContext";
 import { EventEditDialog } from "@/components/calendar/EventEditDialog";
+import { TaskEditDialog } from "@/components/calendar/TaskEditDialog";
 
 const Calendar = () => {
   const { events, tasks } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
   const [editingEvent, setEditingEvent] = useState<any>(null);
+  const [editingTask, setEditingTask] = useState<any>(null);
 
 
   const monthNames = [
@@ -93,7 +95,11 @@ const Calendar = () => {
           }).map(task => (
             <div
               key={task.id}
-              className="text-xs p-1 mt-1 rounded bg-blue-500 text-white truncate"
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditingTask(task);
+              }}
+              className="text-xs p-1 mt-1 rounded bg-blue-500 text-white truncate cursor-pointer hover:bg-blue-600 transition-smooth"
             >
               {task.title}
             </div>
@@ -250,6 +256,15 @@ const Calendar = () => {
           event={editingEvent}
           open={!!editingEvent}
           onOpenChange={(open) => !open && setEditingEvent(null)}
+        />
+      )}
+
+      {/* Task Edit Dialog */}
+      {editingTask && (
+        <TaskEditDialog
+          task={editingTask}
+          open={!!editingTask}
+          onOpenChange={(open) => !open && setEditingTask(null)}
         />
       )}
     </div>
