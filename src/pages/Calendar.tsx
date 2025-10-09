@@ -7,7 +7,7 @@ import { useApp } from "@/contexts/AppContext";
 import { EventEditDialog } from "@/components/calendar/EventEditDialog";
 
 const Calendar = () => {
-  const { events } = useApp();
+  const { events, tasks } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
   const [editingEvent, setEditingEvent] = useState<any>(null);
@@ -82,6 +82,20 @@ const Calendar = () => {
               className="text-xs p-1 mt-1 rounded bg-primary/80 text-primary-foreground truncate cursor-pointer hover:bg-primary transition-smooth"
             >
               {event.time} {event.title}
+            </div>
+          ))}
+          {/* Show tasks for this day */}
+          {tasks.filter(task => {
+            const taskDate = new Date(task.dueDate);
+            return taskDate.getDate() === day &&
+                   taskDate.getMonth() === currentDate.getMonth() &&
+                   taskDate.getFullYear() === currentDate.getFullYear();
+          }).map(task => (
+            <div
+              key={task.id}
+              className="text-xs p-1 mt-1 rounded bg-blue-500 text-white truncate"
+            >
+              {task.title}
             </div>
           ))}
         </div>
