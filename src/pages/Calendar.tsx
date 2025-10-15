@@ -70,10 +70,11 @@ const Calendar = () => {
           </div>
           {/* Show events for this day */}
           {events.filter(event => {
-            const eventDate = new Date(event.date);
-            return eventDate.getDate() === day &&
-                   eventDate.getMonth() === currentDate.getMonth() &&
-                   eventDate.getFullYear() === currentDate.getFullYear();
+            // Parse date string without timezone conversion
+            const [year, month, dayOfMonth] = event.date.split('-').map(Number);
+            return dayOfMonth === day &&
+                   month - 1 === currentDate.getMonth() &&
+                   year === currentDate.getFullYear();
           }).map(event => (
             <div
               key={event.id}
@@ -88,10 +89,11 @@ const Calendar = () => {
           ))}
           {/* Show tasks for this day */}
           {tasks.filter(task => {
-            const taskDate = new Date(task.dueDate);
-            return taskDate.getDate() === day &&
-                   taskDate.getMonth() === currentDate.getMonth() &&
-                   taskDate.getFullYear() === currentDate.getFullYear();
+            // Parse date string without timezone conversion
+            const [year, month, dayOfMonth] = task.dueDate.split('-').map(Number);
+            return dayOfMonth === day &&
+                   month - 1 === currentDate.getMonth() &&
+                   year === currentDate.getFullYear();
           }).map(task => (
             <div
               key={task.id}
@@ -112,9 +114,10 @@ const Calendar = () => {
   };
 
   const todayEvents = events.filter(event => {
-    const eventDate = new Date(event.date);
+    // Parse date string without timezone conversion
     const today = new Date();
-    return eventDate.toDateString() === today.toDateString();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    return event.date === todayStr;
   });
 
   return (
