@@ -6,7 +6,6 @@ import {
   FileText,
   Home,
   MessageSquare,
-  Settings,
   Users,
   Zap,
   Plus,
@@ -144,15 +143,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Settings */}
-        <div className="mt-auto p-4 border-t border-border/50">
-          <SidebarMenuButton asChild className="mx-2">
-            <NavLink to="/settings" className={getNavClass}>
-              <Settings className="w-4 h-4 mr-3" />
-              {!collapsed && <span className="font-medium">Settings</span>}
-            </NavLink>
-          </SidebarMenuButton>
-        </div>
       </SidebarContent>
     </Sidebar>
   );

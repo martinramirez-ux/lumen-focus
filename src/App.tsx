@@ -12,7 +12,6 @@ import Tasks from "./pages/Tasks";
 import Calendar from "./pages/Calendar";
 import Notes from "./pages/Notes";
 import Portfolio from "./pages/Portfolio";
-import Settings from "./pages/Settings";
 import AI from "./pages/AI";
 import NotFound from "./pages/NotFound";
 
@@ -37,7 +36,6 @@ const AppContent = () => {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/notes" element={<Notes />} />
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/settings" element={<Settings />} />
         <Route path="/ai" element={<AI />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
